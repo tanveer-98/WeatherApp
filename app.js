@@ -37,7 +37,7 @@ const request = require('request');
 
 */
 
-// let flag2 = 0;
+// let flag2 = 1;
 // if(flag2==1) {
 // const url2 = "http://api.mapbox.com/geocoding/v5/mapbox.places/dhurbi.json?proximity=-74.70850,40.78375&access_token=pk.eyJ1IjoidG52cmFobWVkOTgiLCJhIjoiY2w1ZHR6MG1hMGp5YjNsbXB4b2R4NGR2eSJ9.mmGyPjUfcL-YA1_Usu1_vA&limit=1";
 // request({url: url2,json:true},(e,result) => {
@@ -53,15 +53,31 @@ const request = require('request');
 // }
 
 
+const geoCode = require('./utils/geocode.js');
+const forecast = require('./utils/forecast.js');
+// geoCode('dhubri',(error,data)=>{
+//        if(error !== undefined) {
+//         console.log(error);
+//        }
+//        else{
+//           console.log(`latitude: ${data.latitute}`);
+//           console.log(`longitude : ${data.longitude}`)
+//        } // returns coordinates
+// });
 
-const geoCode = (address , callback) => { 
-    const url = `http://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?proximity=-74.70850,40.78375&access_token=pk.eyJ1IjoidG52cmFobWVkOTgiLCJhIjoiY2w1ZHR6MG1hMGp5YjNsbXB4b2R4NGR2eSJ9.mmGyPjUfcL-YA1_Usu1_vA&limit=1`;
+
+// forecast(26.0186,89.9857,(error,data)=>{
+//     // console.log(error);
+//     console.log(data);
+// })
+
+//####clubbing both geoCOde and forecast 
 
 
-};
-
-
-
-geoCode('Dhubri',(error,data)=>{
-
+geoCode('dhubri',(error,data)=>{
+    if(error) return console.log(error);
+    forecast(26.0186,89.9857,(error,data)=>{
+        if(error!==undefined) return console.error(error);
+        console.log("current Temperature in "+ data.location.name+" is: "+ data.current.temperature);
+    })
 });
