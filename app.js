@@ -1,5 +1,6 @@
 const request = require('request');
 
+
 // const url = "http://api.weatherstack.com/current?access_key=ea3a7922a46cce11b334fc277ec4a5ca&query=37.8267,-122.4233";
 
 
@@ -74,10 +75,29 @@ const forecast = require('./utils/forecast.js');
 //####clubbing both geoCOde and forecast 
 
 
-geoCode('dhubri',(error,data)=>{
+// geoCode('dhubri',(error,data)=>{
+//     if(error) return console.log(error);
+//     forecast(26.0186,89.9857,(error,data)=>{
+//         if(error!==undefined) return console.error(error);
+//         console.log("current Temperature in "+ data.location.name+" is: "+ data.current.temperature);
+//     })
+// });
+
+//taking input from the node console 
+
+// const place  = process.argv[2]
+// console.log(place);
+
+// check notes app for better mehthod using --destination= dhubri which uses args
+const arg = process.argv[2]
+if(arg !== undefined)  {
+
+geoCode(arg,(error,data)=>{
     if(error) return console.log(error);
-    forecast(26.0186,89.9857,(error,data)=>{
+    forecast(data.longitude,data.latitude,(error,data)=>{
         if(error!==undefined) return console.error(error);
         console.log("current Temperature in "+ data.location.name+" is: "+ data.current.temperature);
-    })
-});
+        })
+    });
+}
+else console.error('Desitination empty');
